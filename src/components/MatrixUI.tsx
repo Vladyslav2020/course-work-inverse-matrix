@@ -1,8 +1,9 @@
 import React from 'react';
 import SquareMatrix from "../MatrixClasses/SquareMatrixClass";
+import ExtendedMatrix from "../MatrixClasses/ExtendedMatrixClass";
 
 interface PropTypes{
-    matrix: SquareMatrix;
+    matrix: SquareMatrix | ExtendedMatrix;
     numberDecimalPlaces: number;
     titleOfMatrix: string;
 }
@@ -10,13 +11,19 @@ interface PropTypes{
 class MatrixUI extends React.Component<PropTypes, any>{
     render() {
         let dimension = this.props.matrix.size;
-        console.log("Number decimal Places", this.props.numberDecimalPlaces);
         let matrixUI = this.props.matrix.elements.map((item, y) =>
             <tr key = {y}>
-                {item.map((matrixElem, x) =>
-                    <td key = {dimension * y + x}>
-                        <p>{Math.round(matrixElem * Math.pow(10, this.props.numberDecimalPlaces)) / Math.pow(10, this.props.numberDecimalPlaces)}</p>
-                    </td>
+                {item.map((matrixElem, x) => (y == 0 && x == dimension?
+                        <>
+                            <td rowSpan = {dimension} className = 'separator'></td>
+                            <td key = {dimension * y + x}>
+                                <p>{Math.round(matrixElem * Math.pow(10, this.props.numberDecimalPlaces)) / Math.pow(10, this.props.numberDecimalPlaces)}</p>
+                            </td>
+                        </>:
+                        <td key = {dimension * y + x}>
+                            <p>{Math.round(matrixElem * Math.pow(10, this.props.numberDecimalPlaces)) / Math.pow(10, this.props.numberDecimalPlaces)}</p>
+                        </td>
+                    )
                 )}
             </tr>
         );

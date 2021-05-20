@@ -71,7 +71,7 @@ class Settings extends React.Component<PropTypes, StateType>{
                     <div className = {`setting-item-title ${this.props.method !== 'Schultz'? 'disabled': ''}`}>3. Choose method accuracy</div>
                     <input type="number"
                         id = 'epsilon'
-                        disabled = {this.props.method != 'Schultz'}
+                        disabled = {this.props.method !== 'Schultz'}
                         value = {this.state.epsilon}
                         min = "0"
                         max = "1"
@@ -94,6 +94,7 @@ class Settings extends React.Component<PropTypes, StateType>{
                     <label htmlFor = 'show-steps' className = {this.props.showSteps? 'selected': ''}>
                         <input type="checkbox"
                                id = 'show-steps'
+                               checked = {this.props.showSteps}
                                onChange = {this.props.showStepsChangeHandler}
                         />
                         &nbsp;Show steps

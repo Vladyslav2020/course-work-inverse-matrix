@@ -2,20 +2,37 @@ import SquareMatrix from "./SquareMatrixClass";
 import IdentityMatrix from "./IdentityMatrixClass";
 import ExtendedMatrix from "./ExtendedMatrixClass";
 
+interface ReturnType{
+    intermediateMatrices: Array<ExtendedMatrix>;
+    inverseMatrix: SquareMatrix | null;
+}
+
 // @ts-ignore
-SquareMatrix.prototype.getInverseMatrixGaussMethod = function(){
+SquareMatrix.prototype.getInverseMatrixGaussMethod = function(): ReturnType{
     if (this.getDeterminant() === 0) {
-        return null;
+        return {
+            intermediateMatrices: [],
+            inverseMatrix: null
+        };
     }
     let extendedMatrix = new ExtendedMatrix(this);
-    extendedMatrix.processMatrix();
+    let copyMatrix = new ExtendedMatrix(new IdentityMatrix(this.size));
+    for (let i1 = 0; i1 < this.size; i1++)
+        for (let j1 = 0; j1 < this.size * 2; j1++){
+            copyMatrix.setElementAt(j1, i1, extendedMatrix.elements[i1][j1]);
+        }
+    let matrices = extendedMatrix.processMatrix();
+        matrices.unshift(copyMatrix);
     let matrix = new SquareMatrix(this.size);
     for (let i = 0; i < this.size; i++) {
         for (let j = this.size; j < 2 * this.size; j++) {
             matrix.setElementAt(j - this.size, i, extendedMatrix.getElementAt(j, i));
         }
     }
-    return matrix;
+    return {
+        intermediateMatrices: matrices,
+        inverseMatrix: matrix
+    };
 }
 
 // @ts-ignore

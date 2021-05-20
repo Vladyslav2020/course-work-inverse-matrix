@@ -16,7 +16,7 @@ interface SettingsType{
 
 interface MatrixData{
     inputMatrix: SquareMatrix;
-    needToShowInvertingMatrix: boolean;
+    needToShowInverseMatrix: boolean;
     inverseMatrix: SquareMatrix | null;
     intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
 }
@@ -29,6 +29,13 @@ interface StateType{
     settings: SettingsType;
     matrixData: MatrixData;
     messageBox: MessageType;
+}
+
+interface InverseMatrixData{
+    inputMatrix: SquareMatrix;
+    inverseMatrix: SquareMatrix;
+    intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
+    numberDecimalPlaces: number;
 }
 
 class App extends React.Component<{}, StateType>{
@@ -47,7 +54,7 @@ class App extends React.Component<{}, StateType>{
             },
             matrixData: {
                 inputMatrix: new SquareMatrix(1),
-                needToShowInvertingMatrix: false,
+                needToShowInverseMatrix: false,
                 inverseMatrix: null,
                 intermediateMatrices: []
             }
@@ -77,21 +84,23 @@ class App extends React.Component<{}, StateType>{
             }));
     }
     invertMatrix():void{
-        let inverseMatrix: SquareMatrix | null;
+        let inverseMatrixData: InverseMatrixData;
         if (this.state.settings.method){
             if (this.state.settings.method === 'Gauss') {
                 // @ts-ignore
-                inverseMatrix = this.state.matrixData.inputMatrix.getInverseMatrixGaussMethod();
+                inverseMatrixData = this.state.matrixData.inputMatrix.getInverseMatrixGaussMethod();
+                console.log("inverseMatrixData:", inverseMatrixData);
             }
             else if (this.state.settings.method === 'Schultz'){
                 // @ts-ignore
-                inverseMatrix = this.state.matrixData.inputMatrix.getInverseMatrixSchultzMethod();
+                inverseMatrixData = this.state.matrixData.inputMatrix.getInverseMatrixSchultzMethod();
             }
             this.setState(prevState => ({...prevState,
                 matrixData: {
                     ...prevState.matrixData,
-                    needToShowInvertingMatrix: true,
-                    inverseMatrix
+                    needToShowInverseMatrix: true,
+                    inverseMatrix: inverseMatrixData.inverseMatrix,
+                    intermediateMatrices: inverseMatrixData.intermediateMatrices
                 }
             }));
         }
@@ -109,7 +118,7 @@ class App extends React.Component<{}, StateType>{
         this.setState(prevState => ({...prevState,
             matrixData: {
                 ...prevState.matrixData,
-                needToShowInvertingMatrix: false,
+                needToShowInverseMatrix: false,
                 inputMatrix: matrix
             }
         }));
@@ -123,7 +132,7 @@ class App extends React.Component<{}, StateType>{
         this.setState(prevState => ({...prevState,
             matrixData: {
                 ...prevState.matrixData,
-                needToShowInvertingMatrix: false,
+                needToShowInverseMatrix: false,
                 inputMatrix
             }
         }));
@@ -139,7 +148,7 @@ class App extends React.Component<{}, StateType>{
             },
             matrixData: {
                 ...prevState.matrixData,
-                needToShowInvertingMatrix: false,
+                needToShowInverseMatrix: false,
                 inputMatrix: new SquareMatrix(currentValue)
             }
         }));
@@ -178,8 +187,8 @@ class App extends React.Component<{}, StateType>{
                           settings = {this.state.settings}
                           fillMatrixRandomly = {this.fillMatrixRandomly}
                           matrixItemChangeHandler = {this.matrixItemChangeHandler}
-                          needToShowInvertingMatrix = {this.state.matrixData.needToShowInvertingMatrix}
                           invertMatrix = {this.invertMatrix}
+                          showStepsChangeHandler = {this.showStepsChangeHandler}
                     />
                 </div>
             </div>

@@ -11,6 +11,7 @@ body{
 }
 
 .app{
+    margin: 20px 0 20px 0;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 2px 2px 20px 2px #878787;
@@ -94,7 +95,7 @@ body{
     margin-top: 10px;
     font-size: 25px;
     font-weight: 600;
-    color: #82aa7e;
+    color: #6283c4;
 }
 
 label{
@@ -117,11 +118,18 @@ input{
 }
 
 .matrix{
+    position: relative;
     margin-top: 10px;
     border-left: 2px solid black;
     border-right: 2px solid black;
     border-radius: 10px;
     padding: 5px;
+}
+
+.separator{
+    background-color: black;
+    width: 2px;
+    height: 100%;
 }
 
 .matrix input{
@@ -178,6 +186,7 @@ table.matrix tr{
 
 .message-box-wrapper{
     top: 0;
+    left: 0;
     position: fixed;
     display: flex;
     justify-content: center;
@@ -185,6 +194,7 @@ table.matrix tr{
     width: 100%;
     height: 100%;
     background-color: rgba(128, 128, 128, 0.7);
+    z-index: 100;
 }
 
 .message-box{
@@ -217,4 +227,22 @@ table.matrix tr{
 
 .close:hover{
     color: white;
+}
+
+.matrix-chain{
+    position: relative;
+    max-height: 90%;
+    overflow: auto;
+    background-color: #797979;
+    box-shadow: 3px 3px 20px 3px #454545;
+    border-radius: 10px;
+}
+
+.matrix-chain-body{
+    margin-top: 35px;
+    background-color: #bababa;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 10px;
+    color: #8f8fe2;
 }

@@ -15,7 +15,11 @@ class ExtendedMatrix extends Matrix {
             this._elements[i][j + this._size] = IMatrix.getElementAt(j, i);
         }
     }
-    processMatrix() {
+    get size(){
+        return this._size;
+    }
+    processMatrix(): Array<ExtendedMatrix> {
+        let matrices: Array<ExtendedMatrix> = [];
         for (let i = 0; i < this._size; i++) {
             if (this._elements[i][i] === 0) {
                 for (let j = i + 1; j < this._size; j++) {
@@ -33,7 +37,14 @@ class ExtendedMatrix extends Matrix {
                     }
                 }
             }
+            let copyMatrix = new ExtendedMatrix(new IdentityMatrix(this._size));
+            for (let i1 = 0; i1 < this._size; i1++)
+                for (let j1 = 0; j1 < this._size * 2; j1++){
+                    copyMatrix.setElementAt(j1, i1, this._elements[i1][j1]);
+                }
+            matrices.push(copyMatrix)
         }
+        return matrices;
     }
 }
 
