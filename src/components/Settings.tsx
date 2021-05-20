@@ -9,10 +9,12 @@ interface PropTypes{
     dimension: number;
     eps: number;
     numberDecimalPlaces: number;
+    showSteps: boolean;
     dimensionChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
     methodChangeHandler: (method: string) => void;
     epsilonChangeHandler: (eps: number) => void;
-    numberDecimalPlacesChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void
+    numberDecimalPlacesChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    showStepsChangeHandler: () => void;
 }
 
 class Settings extends React.Component<PropTypes, StateType>{
@@ -35,26 +37,6 @@ class Settings extends React.Component<PropTypes, StateType>{
         }
         this.props.epsilonChangeHandler(currentValue);
     }
-        // let matrix = document.querySelector(".matrix");
-        // for (let i = matrix.children.length - 1; i >= 0; i--){
-        //     matrix.children[i].remove();
-        // }
-        // let dimension = Number(event.target.value);
-        // dimension = Math.floor(dimension);
-        // dimension = Math.max(dimension, 1);
-        // dimension = Math.min(dimension, 20);
-        // for (let i = 0; i < dimension; i++){
-        //     let tr = document.createElement('tr');
-        //     matrix.append(tr);
-        //     for (let j = 0; j < dimension; j++){
-        //         let td = document.createElement("td");
-        //         let matrixElement = document.createElement('input');
-        //         matrixElement.classList.add('matrix-item');
-        //         matrixElement.setAttribute("value", "0");
-        //         td.append(matrixElement);
-        //         tr.append(td);
-        //     }
-        // }
     render(){
         return(
             <div className="settings">
@@ -106,6 +88,16 @@ class Settings extends React.Component<PropTypes, StateType>{
                         max = "7"
                         onChange = {this.props.numberDecimalPlacesChangeHandler}
                     />
+                </div>
+                <div className="setting-item">
+                    <div className = 'setting-item-title'>5. Show algorithm execution steps</div>
+                    <label htmlFor = 'show-steps' className = {this.props.showSteps? 'selected': ''}>
+                        <input type="checkbox"
+                               id = 'show-steps'
+                               onChange = {this.props.showStepsChangeHandler}
+                        />
+                        &nbsp;Show steps
+                    </label>
                 </div>
             </div>
         );

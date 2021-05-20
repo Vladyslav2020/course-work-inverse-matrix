@@ -4,6 +4,7 @@ import SquareMatrix from "../MatrixClasses/SquareMatrixClass";
 interface PropTypes{
     matrix: SquareMatrix;
     numberDecimalPlaces: number;
+    titleOfMatrix: string;
 }
 
 class MatrixUI extends React.Component<PropTypes, any>{
@@ -20,9 +21,13 @@ class MatrixUI extends React.Component<PropTypes, any>{
             </tr>
         );
         return (
-            <table className = "matrix">
-                {matrixUI}
-            </table>
+            <>
+                <div className="title-input-matrix">{this.props.titleOfMatrix}</div>
+                <table className = "matrix">
+                    {matrixUI}
+                </table>
+            </>
+
         );
     }
 }

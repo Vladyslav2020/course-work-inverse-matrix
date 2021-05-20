@@ -70,9 +70,12 @@ class InputMatrix extends React.Component<PropTypes, StateType>{
             </tr>
         );
         return (
-            <table className = "matrix">
-                {matrixUI}
-            </table>
+            <>
+                <div className="title-input-matrix">Enter the elements of the matrix</div>
+                <table className = "matrix">
+                    {matrixUI}
+                </table>
+            </>
         );
     }
 }
