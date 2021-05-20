@@ -1,10 +1,12 @@
-import Matrix from "./MatrixClass.js";
-import IdentityMatrix from "./IdentityMatrixClass.js";
+import Matrix from "./MatrixClass";
+import IdentityMatrix from "./IdentityMatrixClass";
+import SquareMatrix from "./SquareMatrixClass";
 
 class ExtendedMatrix extends Matrix {
-    constructor(matrix) {
-        super(2 * matrix._size, matrix._size);
-        this._size = matrix._size;
+    private readonly _size: number;
+    constructor(matrix: SquareMatrix) {
+        super(2 * matrix.size, matrix.size);
+        this._size = matrix.size;
         let IMatrix = new IdentityMatrix(this._size);
         for (let i = 0; i < this._size; i++) {
             for (let j = 0; j < this._size; j++)

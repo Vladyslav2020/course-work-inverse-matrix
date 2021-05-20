@@ -1,5 +1,8 @@
 class Matrix {
-    constructor(sizeX, sizeY){
+    private readonly sizeCols: number;
+    private readonly sizeRows: number;
+    protected _elements: Array<Array<number>>
+    constructor(sizeX: number, sizeY: number){
         this.sizeCols = sizeX;
         this.sizeRows = sizeY;
         this._elements = [];
@@ -10,27 +13,28 @@ class Matrix {
             }
         }
     }
-    isValidCoords(x, y){
+
+    private isValidCoords(x: number, y: number){
         return x < this.sizeCols && x >= 0 && y < this.sizeRows && y >= 0;
     }
 
-    setElementAt(x, y, value) {
+    setElementAt(x: number, y: number, value: number) {
         if (this.isValidCoords(x, y))
             this.elements[y][x] = value;
     }
     get elements() {
         return this._elements;
     }
-    getElementAt(x, y) {
+    getElementAt(x: number, y: number) {
         if (this.isValidCoords(x, y)) {
             return this._elements[y][x];
         }
         return -1;
     }
-    swapRows(first, second) {
+    swapRows(first: number, second: number) {
         [this._elements[first], this._elements[second]] = [this._elements[second], this._elements[first]];
     }
-    multiplyRow(numberOfRow, K) {
+    multiplyRow(numberOfRow: number, K: number) {
         for (let i = 0; i < this.sizeCols; i++) {
             this._elements[numberOfRow][i] *= K;
         }

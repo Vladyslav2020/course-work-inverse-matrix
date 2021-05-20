@@ -19,7 +19,7 @@ class Settings extends React.Component<PropTypes, StateType>{
     constructor(props: PropTypes){
         super(props);
         this.state = {
-            epsilon: '0,001'
+            epsilon: '0.001'
         };
         this.epsChangeHandler = this.epsChangeHandler.bind(this);
     }
@@ -60,11 +60,11 @@ class Settings extends React.Component<PropTypes, StateType>{
             <div className="settings">
                 <div className="setting-item number-input">
                     <div className = 'setting-item-title'>1. Select matrix size</div>
-                    <input type="number" 
-                        id = 'dimension' 
-                        value = {String(this.props.dimension)} 
-                        min = "1" 
-                        max = "20" 
+                    <input type="number"
+                        id = 'dimension'
+                        value = {String(this.props.dimension)}
+                        min = "1"
+                        max = "20"
                         onChange = {this.props.dimensionChangeHandler}
                     />
                 </div>
@@ -72,23 +72,23 @@ class Settings extends React.Component<PropTypes, StateType>{
                     <div className = 'setting-item-title'>2. Select a matrix inversion method</div>
                     <form action="">
                         <label htmlFor="gauss" className = {this.props.method === 'Gauss'? "selected": ""}>
-                            <input type="radio" id = "gauss" name = "radio" 
+                            <input type="radio" id = "gauss" name = "radio"
                                 onChange = {() => this.props.methodChangeHandler("Gauss")}
-                            /> 
+                            />
                             &nbsp;Jordan Gauss method
                         </label>
                         <label htmlFor="schultz" className = {this.props.method === 'Schultz'? "selected": ""}>
-                            <input type="radio" id = "schultz" name = "radio" 
+                            <input type="radio" id = "schultz" name = "radio"
                                 onChange = {() => this.props.methodChangeHandler("Schultz")}
-                            /> 
+                            />
                             &nbsp;Schultz's method
                         </label>
                     </form>
                 </div>
                 <div className = "setting-item number-input">
-                    <div className = {`setting-item-title ${this.props.method != 'Schultz'? 'disabled': ''}`}>3. Choose method accuracy</div>
-                    <input type="number" 
-                        id = 'epsilon' 
+                    <div className = {`setting-item-title ${this.props.method !== 'Schultz'? 'disabled': ''}`}>3. Choose method accuracy</div>
+                    <input type="number"
+                        id = 'epsilon'
                         disabled = {this.props.method != 'Schultz'}
                         value = {this.state.epsilon}
                         min = "0"
@@ -99,11 +99,11 @@ class Settings extends React.Component<PropTypes, StateType>{
                 </div>
                 <div className="setting-item number-input">
                     <div className = 'setting-item-title'>4. Select the number of decimal places in the inverse matrix</div>
-                    <input type="number" 
-                        id = 'number-decimal-places' 
-                        value = {String(this.props.numberDecimalPlaces)} 
-                        min = "0" 
-                        max = "7" 
+                    <input type="number"
+                        id = 'number-decimal-places'
+                        value = {String(this.props.numberDecimalPlaces)}
+                        min = "0"
+                        max = "7"
                         onChange = {this.props.numberDecimalPlacesChangeHandler}
                     />
                 </div>
