@@ -95,6 +95,7 @@ class App extends React.Component<{}, StateType>{
                 // @ts-ignore
                 inverseMatrixData = this.state.matrixData.inputMatrix.getInverseMatrixSchultzMethod();
             }
+            //console.log(inverseMatrixData);
             this.setState(prevState => ({...prevState,
                 matrixData: {
                     ...prevState.matrixData,

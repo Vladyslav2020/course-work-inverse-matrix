@@ -13,9 +13,9 @@ class MatrixUI extends React.Component<PropTypes, any>{
         let dimension = this.props.matrix.size;
         let matrixUI = this.props.matrix.elements.map((item, y) =>
             <tr key = {y}>
-                {item.map((matrixElem, x) => (y == 0 && x == dimension?
+                {item.map((matrixElem, x) => (y === 0 && x === dimension?
                         <>
-                            <td rowSpan = {dimension} className = 'separator'></td>
+                            <td key = {-1} rowSpan = {dimension} className = 'separator'></td>
                             <td key = {dimension * y + x}>
                                 <p>{Math.round(matrixElem * Math.pow(10, this.props.numberDecimalPlaces)) / Math.pow(10, this.props.numberDecimalPlaces)}</p>
                             </td>
