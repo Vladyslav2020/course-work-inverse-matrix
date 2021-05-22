@@ -55,13 +55,15 @@ class Settings extends React.Component<PropTypes, StateType>{
                     <form action="">
                         <label htmlFor="gauss" className = {this.props.method === 'Gauss'? "selected": ""}>
                             <input type="radio" id = "gauss" name = "radio"
-                                onChange = {() => this.props.methodChangeHandler("Gauss")}
+                                   checked = {this.props.method === 'Gauss'}
+                                   onChange = {() => this.props.methodChangeHandler("Gauss")}
                             />
                             &nbsp;Jordan Gauss method
                         </label>
                         <label htmlFor="schultz" className = {this.props.method === 'Schultz'? "selected": ""}>
                             <input type="radio" id = "schultz" name = "radio"
-                                onChange = {() => this.props.methodChangeHandler("Schultz")}
+                                   checked = {this.props.method === 'Schultz'}
+                                   onChange = {() => this.props.methodChangeHandler("Schultz")}
                             />
                             &nbsp;Schultz's method
                         </label>

@@ -42,7 +42,8 @@ class Body extends React.Component<PropTypes, StateType>{
         this.setState({visibleMatrixChain: visibility});
     }
     componentDidUpdate(prevProps: Readonly<PropTypes>, prevState: Readonly<StateType>, snapshot?: any) {
-        if (!this.state.visibleMatrixChain && !prevProps.matrixData.needToShowInverseMatrix && this.props.matrixData.needToShowInverseMatrix)
+        if (!this.state.visibleMatrixChain && (!prevProps.matrixData.needToShowInverseMatrix && this.props.matrixData.needToShowInverseMatrix) ||
+            (this.props.settings.method !== prevProps.settings.method && this.props.matrixData.needToShowInverseMatrix))
             this.visibleMatrixChainChangeHandler(true);
     }
 

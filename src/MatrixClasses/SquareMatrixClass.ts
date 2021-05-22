@@ -1,15 +1,5 @@
 import Matrix from "./MatrixClass";
 
-// interface SquareMatrixType extends Matrix{
-//     _size: number;
-//     size:number;
-//     getTransposeMatrix(): SquareMatrix;
-//     getMaxElement(): number;
-//     getDeterminant(): number;
-//     multiplyByNumber(number: number): SquareMatrix;
-//     getInverseMatrix(): SquareMatrix;
-// }
-
 class SquareMatrix extends Matrix{
     protected _size: number;
     constructor(size: number){
@@ -61,6 +51,17 @@ class SquareMatrix extends Matrix{
         for (let i = 0; i < this._size; i++)
             for (let j = 0; j < this._size; j++)
                 max = Math.max(max, Math.abs(this._elements[i][j]));
+        return max;
+    }
+
+    getMaxSumOfRow(){
+        let max = 0;
+        for (let i = 0; i < this._size; i++){
+            let sum = 0;
+            for(let j = 0; j < this._size; j++)
+                sum += Math.abs(this._elements[i][j]);
+            max = Math.max(max, sum);
+        }
         return max;
     }
 
@@ -119,6 +120,15 @@ class SquareMatrix extends Matrix{
                 newMatrix.setElementAt(j, i, matrix1._elements[i][j] + matrix2._elements[i][j]);
         }
         return newMatrix;
+    }
+
+    getNorma(): number
+    {
+        let result = 0;
+        for (let i = 0; i < this._size; i++)
+            for (let j = 0; j < this._size; j++)
+                result += Math.pow(Math.abs(this._elements[i][j]), 2);
+        return Math.pow(result, 0.5);
     }
 }
 

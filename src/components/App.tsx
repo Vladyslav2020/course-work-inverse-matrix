@@ -2,9 +2,10 @@ import React from 'react';
 import Body from './Body';
 import Settings from './Settings';
 import Title from './Title';
-import SquareMatrix from "../MatrixClasses/SquareMatrix";
+import SquareMatrix from "../MatrixClasses/SquareMatrixClass";
 import MessageBox from "./MessageBox";
 import ExtendedMatrix from "../MatrixClasses/ExtendedMatrixClass";
+import MatrixInverter from "../MatrixClasses/MatrixInverterClass";
 
 interface SettingsType{
     dimension: number;
@@ -32,10 +33,8 @@ interface StateType{
 }
 
 interface InverseMatrixData{
-    inputMatrix: SquareMatrix;
-    inverseMatrix: SquareMatrix;
+    inverseMatrix: SquareMatrix | null;
     intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
-    numberDecimalPlaces: number;
 }
 
 class App extends React.Component<{}, StateType>{
@@ -84,26 +83,34 @@ class App extends React.Component<{}, StateType>{
             }));
     }
     invertMatrix():void{
-        let inverseMatrixData: InverseMatrixData;
+        let inverseMatrixData: InverseMatrixData = {inverseMatrix: null, intermediateMatrices: []};
         if (this.state.settings.method){
+            let matrixInverter = new MatrixInverter(this.state.matrixData.inputMatrix);
             if (this.state.settings.method === 'Gauss') {
-                // @ts-ignore
-                inverseMatrixData = this.state.matrixData.inputMatrix.getInverseMatrixGaussMethod();
+                inverseMatrixData = matrixInverter.getInverseMatrixGaussMethod();
                 console.log("inverseMatrixData:", inverseMatrixData);
             }
             else if (this.state.settings.method === 'Schultz'){
-                // @ts-ignore
-                inverseMatrixData = this.state.matrixData.inputMatrix.getInverseMatrixSchultzMethod();
+                inverseMatrixData = matrixInverter.getInverseMatrixSchultzMethod(this.state.settings.eps);
             }
-            //console.log(inverseMatrixData);
-            this.setState(prevState => ({...prevState,
-                matrixData: {
-                    ...prevState.matrixData,
-                    needToShowInverseMatrix: true,
-                    inverseMatrix: inverseMatrixData.inverseMatrix,
-                    intermediateMatrices: inverseMatrixData.intermediateMatrices
-                }
-            }));
+            if (!inverseMatrixData.inverseMatrix){
+                this.setState(prevState => ({
+                    ...prevState,
+                    messageBox: {
+                        text: "This matrix has no inverse matrix!!"
+                    }
+                }));
+            }
+            else{
+                this.setState(prevState => ({...prevState,
+                    matrixData: {
+                        ...prevState.matrixData,
+                        needToShowInverseMatrix: true,
+                        inverseMatrix: inverseMatrixData.inverseMatrix,
+                        intermediateMatrices: inverseMatrixData.intermediateMatrices
+                    }
+                }));
+            }
         }
         else if (!this.state.settings.method){
             this.setState(prevState => ({...prevState,
@@ -155,7 +162,10 @@ class App extends React.Component<{}, StateType>{
         }));
     }
     methodChangeHandler(method: string): void{
-        this.setState(prevState => ({...prevState, settings: {...prevState.settings, method}}));
+        this.setState(prevState => ({...prevState,
+            settings: {...prevState.settings, method},
+            matrixData: {...prevState.matrixData, needToShowInverseMatrix: false}
+        }));
     }
     epsilonChangeHandler(eps: number): void{
         this.setState(prevState => ({...prevState, settings: {...prevState.settings, eps}}));

@@ -1,3 +1,9 @@
+interface MatrixType{
+    size: number;
+    elements: Array<Array<number>>;
+    setElementAt: (x: number, y: number, value: number) => void;
+}
+
 class Matrix {
     private readonly sizeCols: number;
     private readonly sizeRows: number;
@@ -41,6 +47,14 @@ class Matrix {
     }
     printMatrix() {
         console.log("Matrix = \n", this._elements);
+    }
+
+    static getCopyOfMatrix<T extends MatrixType>(matrix: T, constr: {new (size: number): T}): T{
+        let copiedMatrix: T = new constr(matrix.size);
+        for (let i = 0; i < matrix.elements.length; i++)
+            for (let j = 0; j < matrix.elements[i].length; j++)
+                copiedMatrix.setElementAt(j, i , matrix.elements[i][j]);
+        return copiedMatrix;
     }
 }
 

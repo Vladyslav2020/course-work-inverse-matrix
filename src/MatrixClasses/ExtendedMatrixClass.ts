@@ -4,15 +4,23 @@ import SquareMatrix from "./SquareMatrixClass";
 
 class ExtendedMatrix extends Matrix {
     private readonly _size: number;
-    constructor(matrix: SquareMatrix) {
-        super(2 * matrix.size, matrix.size);
-        this._size = matrix.size;
-        let IMatrix = new IdentityMatrix(this._size);
-        for (let i = 0; i < this._size; i++) {
-            for (let j = 0; j < this._size; j++)
-            this._elements[i][j] = matrix.getElementAt(j, i);
-            for (let j = 0; j < this._size; j++)
-            this._elements[i][j + this._size] = IMatrix.getElementAt(j, i);
+    constructor (size: number);
+    constructor (matrix: SquareMatrix);
+    constructor(data: SquareMatrix | number) {
+        if (typeof data === 'number'){
+            super(2 * data, data);
+            this._size = data;
+        }
+        else{
+            super(2 * data.size, data.size);
+            this._size = data.size;
+            let IMatrix = new IdentityMatrix(this._size);
+            for (let i = 0; i < this._size; i++) {
+                for (let j = 0; j < this._size; j++)
+                    this._elements[i][j] = data.getElementAt(j, i);
+                for (let j = 0; j < this._size; j++)
+                    this._elements[i][j + this._size] = IMatrix.getElementAt(j, i);
+            }
         }
     }
     get size(){
@@ -37,12 +45,7 @@ class ExtendedMatrix extends Matrix {
                     }
                 }
             }
-            let copyMatrix = new ExtendedMatrix(new IdentityMatrix(this._size));
-            for (let i1 = 0; i1 < this._size; i1++)
-                for (let j1 = 0; j1 < this._size * 2; j1++){
-                    copyMatrix.setElementAt(j1, i1, this._elements[i1][j1]);
-                }
-            matrices.push(copyMatrix)
+            matrices.push(Matrix.getCopyOfMatrix<ExtendedMatrix>(this, ExtendedMatrix));
         }
         return matrices;
     }
