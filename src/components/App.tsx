@@ -88,7 +88,6 @@ class App extends React.Component<{}, StateType>{
             let matrixInverter = new MatrixInverter(this.state.matrixData.inputMatrix);
             if (this.state.settings.method === 'Gauss') {
                 inverseMatrixData = matrixInverter.getInverseMatrixGaussMethod();
-                console.log("inverseMatrixData:", inverseMatrixData);
             }
             else if (this.state.settings.method === 'Schultz'){
                 inverseMatrixData = matrixInverter.getInverseMatrixSchultzMethod(this.state.settings.eps);

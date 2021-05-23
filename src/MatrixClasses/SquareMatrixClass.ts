@@ -45,15 +45,6 @@ class SquareMatrix extends Matrix{
         return matrix;
     }
 
-    getMaxElement()
-    {
-        let max = -1;
-        for (let i = 0; i < this._size; i++)
-            for (let j = 0; j < this._size; j++)
-                max = Math.max(max, Math.abs(this._elements[i][j]));
-        return max;
-    }
-
     getMaxSumOfRow(){
         let max = 0;
         for (let i = 0; i < this._size; i++){
