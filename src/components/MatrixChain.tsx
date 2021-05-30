@@ -23,7 +23,7 @@ class MatrixChain extends React.Component<PropTypes, {}>{
         let matrixChain = this.props.intermediateMatrices.map((matrix, index) =>
             <MatrixUI matrix = {matrix}
                       numberDecimalPlaces = {this.props.numberDecimalPlaces}
-                      titleOfMatrix = {`${index + 1}. Step`}
+                      titleOfMatrix = {`${index}. Step`}
                       key = {index + 1}
             />);
         matrixChain.unshift(

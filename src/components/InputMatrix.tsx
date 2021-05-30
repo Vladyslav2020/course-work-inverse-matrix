@@ -30,7 +30,6 @@ class InputMatrix extends React.Component<PropTypes, StateType>{
         if (currentValue.length > 1 && currentValue[0] !== '-'){
             let numberParts = currentValue.split('.');
             numberParts[0] = String(Number(numberParts[0]));
-            let hasDot: boolean = currentValue.indexOf('.') === currentValue.length - 1;
             currentValue = numberParts.join('.');
         }
         this.props.matrixItemChangeHandler(x, y, parseFloat(currentValue) || 0);
@@ -55,7 +54,6 @@ class InputMatrix extends React.Component<PropTypes, StateType>{
         let matrixUI = this.state.matrixUI;
         matrixUI[y][x] = String(this.props.matrix.elements[y][x]);
         this.setState({matrixUI: [...matrixUI]});
-        Math.min()
     }
     render(){
         let matrixUI = this.state.matrixUI.map((item, y) =>

@@ -256,3 +256,64 @@ table.matrix tr{
     padding: 10px;
     color: #8f8fe2;
 }
+
+.download-link{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 23px;
+    color: #0022ff;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px gray;
+    text-decoration: none;
+}
+
+.download-link i{
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #9fe726;
+}
+
+.download-link:hover i{
+    animation: move ease-out 500ms;
+}
+
+.download-link:hover{
+    text-shadow: 4px 4px 10px #535353;
+}
+
+@keyframes move {
+    25% {
+        transform: translateY(-10px);
+    }
+    75% {
+        transform: translateY(10px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.show-steps-button{
+    cursor: pointer;
+    margin-top: 20px;
+    color: green;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px gray;
+    font-size: 20px;
+}
+
+.show-steps-button:hover{
+    transition: font-size ease-out 500ms;
+    font-size: 23px;
+}
+
+.statistic{
+    margin-top: 10px;
+}
+
+.statistic-item{
+    font-size: 22px;
+    color: #b83d00;
+    margin-top: 5px;
+}

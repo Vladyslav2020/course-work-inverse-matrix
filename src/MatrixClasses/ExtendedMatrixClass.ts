@@ -26,7 +26,8 @@ class ExtendedMatrix extends Matrix {
     get size(){
         return this._size;
     }
-    processMatrix(): Array<ExtendedMatrix> {
+    processMatrix(): {numberOperations: number, matrices: Array<ExtendedMatrix>} {
+        let numberElementaryOperations = 0;
         let matrices: Array<ExtendedMatrix> = [];
         for (let i = 0; i < this._size; i++) {
             if (this._elements[i][i] === 0) {
@@ -42,12 +43,17 @@ class ExtendedMatrix extends Matrix {
                     let coefficient = this._elements[j][i];
                     for (let k = 0; k < 2 * this._size; k++) {
                         this._elements[j][k] -= coefficient * this._elements[i][k];
+                        numberElementaryOperations++;
                     }
                 }
             }
             matrices.push(Matrix.getCopyOfMatrix<ExtendedMatrix>(this, ExtendedMatrix));
         }
-        return matrices;
+        numberElementaryOperations = Math.max(numberElementaryOperations, Math.pow(this._size, 3));
+        return {
+            numberOperations: numberElementaryOperations,
+            matrices
+        };
     }
 }
 

@@ -5,6 +5,7 @@ import Buttons from "./Buttons";
 import MatrixUI from "./MatrixUI";
 import ExtendedMatrix from "../MatrixClasses/ExtendedMatrixClass";
 import MatrixChain from "./MatrixChain";
+import Statistic from "./Statistic";
 
 interface SettingsType{
     dimension: number;
@@ -19,6 +20,7 @@ interface MatrixData {
     needToShowInverseMatrix: boolean;
     inverseMatrix: SquareMatrix | null;
     intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
+    numberOperations: number;
 }
 
 interface PropTypes{
@@ -36,25 +38,35 @@ interface StateType{
 
 class Body extends React.Component<PropTypes, StateType>{
     state = {
-        visibleMatrixChain: true
+        visibleMatrixChain: false
     };
     visibleMatrixChainChangeHandler = (visibility: boolean) => {
         this.setState({visibleMatrixChain: visibility});
     }
-    componentDidUpdate(prevProps: Readonly<PropTypes>, prevState: Readonly<StateType>, snapshot?: any) {
-        if (!this.state.visibleMatrixChain && (!prevProps.matrixData.needToShowInverseMatrix && this.props.matrixData.needToShowInverseMatrix) ||
-            (this.props.settings.method !== prevProps.settings.method && this.props.matrixData.needToShowInverseMatrix))
-            this.visibleMatrixChainChangeHandler(true);
-    }
 
     render(){
         let inverseMatrixUI = null,
-            matrixChain = null;
+            matrixChain = null,
+            file = null;
         if (this.props.matrixData.needToShowInverseMatrix && this.props.matrixData.inverseMatrix){
             inverseMatrixUI = <MatrixUI matrix = {this.props.matrixData.inverseMatrix}
                                         numberDecimalPlaces={this.props.settings.numberDecimalPlaces}
                                         titleOfMatrix = "Inverse matrix"
             />;
+            file = new Blob([JSON.stringify({
+                originMatrix: {
+                    size: this.props.matrixData.inputMatrix.size,
+                    elements: this.props.matrixData.inputMatrix.elements
+                },
+                inverseMatrix: {
+                    size: this.props.matrixData.inverseMatrix.size,
+                    elements: this.props.matrixData.inverseMatrix.elements
+                },
+                numberOperations: this.props.matrixData.numberOperations,
+                numberIterations: this.props.matrixData.intermediateMatrices.length - 1
+            })], {
+                type: 'application/json'
+            });
             if (this.props.settings.showSteps && this.state.visibleMatrixChain){
                 matrixChain = <MatrixChain inputMatrix = {this.props.matrixData.inputMatrix}
                                            inverseMatrix = {this.props.matrixData.inverseMatrix}
@@ -74,15 +86,25 @@ class Body extends React.Component<PropTypes, StateType>{
                              matrixItemChangeHandler = {this.props.matrixItemChangeHandler}
                 />
                 {inverseMatrixUI}
+                {
+                    inverseMatrixUI ?
+                        <Statistic numberOperations={this.props.matrixData.numberOperations}
+                                   numberIterations={this.props.matrixData.intermediateMatrices.length - 1}
+                        /> : null
+                }
                 {(!this.state.visibleMatrixChain && this.props.settings.showSteps && this.props.matrixData.needToShowInverseMatrix) &&
-                    <div style = {{cursor: 'pointer', marginTop: '20px', color: 'green', fontSize: '20px',
-                        padding: '5px 10px', fontWeight: 'bold', textShadow: '3px 3px 6px gray'}}
+                    <div className = "show-steps-button"
                          onClick = {() => this.visibleMatrixChainChangeHandler(true)}
                     >
                         Show steps to invert matrix
                     </div>
                 }
                 {matrixChain}
+                {file !== null ? <a className = 'download-link' download = "statistic.json" href = {URL.createObjectURL(file)}>
+                    <i className="fas fa-download"></i>
+                    Download statistics file
+                    <i className="fas fa-download"></i>
+                </a>: null}
             </div>
         );
     }

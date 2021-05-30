@@ -18,6 +18,7 @@ interface SettingsType{
 interface MatrixData{
     inputMatrix: SquareMatrix;
     needToShowInverseMatrix: boolean;
+    numberOperations: number;
     inverseMatrix: SquareMatrix | null;
     intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
 }
@@ -33,6 +34,7 @@ interface StateType{
 }
 
 interface InverseMatrixData{
+    numberOperations: number;
     inverseMatrix: SquareMatrix | null;
     intermediateMatrices: Array<SquareMatrix | ExtendedMatrix>;
 }
@@ -55,7 +57,8 @@ class App extends React.Component<{}, StateType>{
                 inputMatrix: new SquareMatrix(1),
                 needToShowInverseMatrix: false,
                 inverseMatrix: null,
-                intermediateMatrices: []
+                intermediateMatrices: [],
+                numberOperations: 0
             }
         };
         this.dimensionChangeHandler = this.dimensionChangeHandler.bind(this);
@@ -83,7 +86,7 @@ class App extends React.Component<{}, StateType>{
             }));
     }
     invertMatrix():void{
-        let inverseMatrixData: InverseMatrixData = {inverseMatrix: null, intermediateMatrices: []};
+        let inverseMatrixData: InverseMatrixData = {numberOperations: 0, inverseMatrix: null, intermediateMatrices: []};
         if (this.state.settings.method){
             let matrixInverter = new MatrixInverter(this.state.matrixData.inputMatrix);
             if (this.state.settings.method === 'Gauss') {
@@ -105,6 +108,7 @@ class App extends React.Component<{}, StateType>{
                     matrixData: {
                         ...prevState.matrixData,
                         needToShowInverseMatrix: true,
+                        numberOperations: inverseMatrixData.numberOperations,
                         inverseMatrix: inverseMatrixData.inverseMatrix,
                         intermediateMatrices: inverseMatrixData.intermediateMatrices
                     }
@@ -134,7 +138,7 @@ class App extends React.Component<{}, StateType>{
         let inputMatrix = this.state.matrixData.inputMatrix;
         for(let i = 0; i < inputMatrix.size; i++)
             for (let j = 0; j < inputMatrix.size; j++){
-                inputMatrix.elements[i][j] = Math.floor(Math.random() * 100);
+                inputMatrix.elements[i][j] = Math.floor(Math.random() * 200 - 100);
             }
         this.setState(prevState => ({...prevState,
             matrixData: {

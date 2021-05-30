@@ -24,17 +24,16 @@ class Settings extends React.Component<PropTypes, StateType>{
             epsilon: '0.001'
         };
         this.epsChangeHandler = this.epsChangeHandler.bind(this);
+        this.epsBlurHandler = this.epsBlurHandler.bind(this);
     }
     epsChangeHandler(event: React.ChangeEvent<HTMLInputElement>): void{
-        let currentValue = Number(event.target.value);
-        if (currentValue > 1 || currentValue < 0){
-            currentValue = Math.max(currentValue, 0);
-            currentValue = Math.min(currentValue, 1);
-            this.setState({epsilon: String(currentValue)});
-        }
-        else{
-            this.setState({epsilon: event.target.value});
-        }
+        this.setState({epsilon: event.target.value});
+    }
+    epsBlurHandler(): void{
+        let currentValue = Number(this.state.epsilon) || 0;
+        currentValue = Math.max(currentValue, 0.001);
+        currentValue = Math.min(currentValue, 1);
+        this.setState({epsilon: String(currentValue)});
         this.props.epsilonChangeHandler(currentValue);
     }
     render(){
@@ -75,10 +74,11 @@ class Settings extends React.Component<PropTypes, StateType>{
                         id = 'epsilon'
                         disabled = {this.props.method !== 'Schultz'}
                         value = {this.state.epsilon}
-                        min = "0"
+                        min = "0.001"
                         max = "1"
                         step = "0.001"
                         onChange = {this.epsChangeHandler}
+                           onBlur = {this.epsBlurHandler}
                     />
                 </div>
                 <div className="setting-item number-input">
