@@ -38,6 +38,7 @@ class ExtendedMatrix extends Matrix {
                 }
             }
             this.multiplyRow(i, 1 / this._elements[i][i]);
+            numberElementaryOperations += 2 * this._size;
             for (let j = 0; j < this._size; j++) {
                 if (j !== i) {
                     let coefficient = this._elements[j][i];
@@ -49,7 +50,6 @@ class ExtendedMatrix extends Matrix {
             }
             matrices.push(Matrix.getCopyOfMatrix<ExtendedMatrix>(this, ExtendedMatrix));
         }
-        numberElementaryOperations = Math.max(numberElementaryOperations, Math.pow(this._size, 3));
         return {
             numberOperations: numberElementaryOperations,
             matrices

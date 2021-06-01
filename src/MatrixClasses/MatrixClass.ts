@@ -45,9 +45,6 @@ class Matrix {
             this._elements[numberOfRow][i] *= K;
         }
     }
-    printMatrix() {
-        console.log("Matrix = \n", this._elements);
-    }
 
     static getCopyOfMatrix<T extends MatrixType>(matrix: T, constr: {new (size: number): T}): T{
         let copiedMatrix: T = new constr(matrix.size);
